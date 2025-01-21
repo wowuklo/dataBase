@@ -1,13 +1,15 @@
 <?php
 
-require "vendor/autoload.php";
-require __DIR__ . '/models/UserModel.php';
-require __DIR__ . '/controllers/UserController.php';
+namespace App;
 
+require __DIR__ . "/vendor/autoload.php";
 
-$filePath = 'data/user.json';
-$model = new models\UserModel($filePath);
-$controller = new controllers\UserController($model);
+use App\Models\UserModel;
+use App\Controllers\UserController;
+
+$filePath = 'dataBase/data/user.json';
+$model = new Models\UserModel($filePath);
+$controller = new Controllers\UserController($model);
 
 $command = $argv[1] ?? null;
 

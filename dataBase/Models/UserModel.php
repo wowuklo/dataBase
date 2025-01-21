@@ -1,17 +1,17 @@
 <?php
 
-namespace models;
+namespace App\Models;
 
 class UserModel
 {
 
 
-    public function __construct(private readonly string $filePath = 'data/user.json')
+    public function __construct(private readonly string $filePath = 'dataBase/data/user.json')
     {
 
     }
 
-    public function getUsers()
+    public function getUsers() : array
     {
         if (!file_exists($this->filePath)) {
             return [];
@@ -20,12 +20,12 @@ class UserModel
         return json_decode($json, true);
     }
 
-    public function saveUser($users): void
+    public function saveUser(array $users): void
     {
         file_put_contents($this->filePath, json_encode($users, JSON_PRETTY_PRINT));
     }
 
-    public function addUser($user): void
+    public function addUser(array $user): void
     {
         $users = $this->getUsers();
         $user['id'] = count($users) + 1;
@@ -33,7 +33,7 @@ class UserModel
         $this->saveUser($users);
     }
 
-    public function deleteUser($id): void
+    public function deleteUser(int $id): void
     {
         $users = $this->getUsers();
         foreach ($users as $key => $user) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace controllers;
+namespace App\Controllers;
 
 class UserController
 {
@@ -9,7 +9,7 @@ class UserController
 
     }
 
-    public function showUsers()
+    public function showUsers() : void
     {
         $users = $this->model->getUsers();
         if (empty($users))
@@ -23,7 +23,7 @@ class UserController
         }
     }
 
-    public function addUser($firstName, $lastName, $email)
+    public function addUser(string $firstName,string $lastName,string $email) : void
     {
         $user = [
             'firstName' => $firstName,
@@ -34,7 +34,7 @@ class UserController
         echo "Пользователь {$firstName} {$lastName} добавлен.\n";
     }
 
-    public function deleteUser($id)
+    public function deleteUser(string $id) : void
     {
         $this->model->deleteUser($id);
         echo "Пользователь с ID {$id} удален.\n";
