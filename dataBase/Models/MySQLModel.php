@@ -35,7 +35,17 @@ class MySQLModel implements DataSourceInterface
 
     public function saveUser(array $user): void
     {
-
+        if (isset($user['id'])) {
+            $stmt = $this->db->prepare("UPDATE users SET firstName = :firstName, lastName = :lastName, email = :email WHERE id = :id");
+            $stmt->execute([
+                'firstName' => $user['firstName'],
+                'lastName' => $user['lastName'],
+                'email' => $user['email'],
+                'id' => $user['id'],
+            ]);
+        } else {
+            $this->addUser($user);
+        }
     }
 
     public function addUser(array $user): void
