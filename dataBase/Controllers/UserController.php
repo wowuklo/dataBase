@@ -2,41 +2,52 @@
 
 namespace App\Controllers;
 
+use App\Models\UserModel;
+
 class UserController
 {
-    public function __construct(private $model)
+    public function __construct(private readonly UserModel $model)
     {
-
     }
 
-    public function showUsers() : void
+    public function showUsers(): void
     {
         $users = $this->model->getUsers();
-        if (empty($users))
-        {
-            echo "No users found. \n";
+        if (empty($users)) {
+            echo json_encode(['status' => 'success', 'message' => 'No users found.', 'data' => []]);
             return;
         }
-        foreach ($users as $user)
-        {
-            echo "ID: {$user['id']}, Имя: {$user['firstName']}, Фамилия: {$user['lastName']}, Email: {$user['email']}\n";
+        echo json_encode(['status' => 'success', 'data' => $users]);
+    }
+
+    public function addUser(): void
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            http_response_code(400);
+            echo json_encode(['message' => 'Invalid JSON']);
+            return;
+        }
+
+        $result = $this->model->addUser($data);
+        if ($result) {
+            http_response_code(201);
+            echo json_encode(['message' => 'User created']);
+        } else {
+            http_response_code(400);
+            echo json_encode(['message' => 'Failed to create user']);
         }
     }
 
-    public function addUser(string $firstName,string $lastName,string $email) : void
+    public function deleteUser(int $id): void
     {
-        $user = [
-            'firstName' => $firstName,
-            'lastName' => $lastName,
-            'email' => $email
-        ];
-        $this->model->addUser($user);
-        echo "Пользователь {$firstName} {$lastName} добавлен.\n";
-    }
-
-    public function deleteUser(string $id) : void
-    {
-        $this->model->deleteUser($id);
-        echo "Пользователь с ID {$id} удален.\n";
+        $result = $this->model->deleteUser($id);
+        if ($result) {
+            http_response_code(200);
+            echo json_encode(['message' => 'User deleted']);
+        } else {
+            http_response_code(404);
+            echo json_encode(['message' => 'User not found']);
+        }
     }
 }
