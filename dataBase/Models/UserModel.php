@@ -6,7 +6,7 @@ use App\Interface\DataSourceInterface;
 
 class UserModel implements DataSourceInterface
 {
-    public function __construct(private readonly string $filePath = 'dataBase/data/user.json')
+    public function __construct(private readonly string $filePath = '/../storage/user.json')
     {
     }
 
