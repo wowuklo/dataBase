@@ -2,12 +2,13 @@
 
 namespace App\Core;
 
-use App\Models\UserModel;
+use App\FilePath\FilePathClass;
+use App\Models\jsonModel;
 use App\Models\MySQLModel;
 
 class BD
 {
-    private UserModel|MySQLModel $model;
+    private jsonModel|MySQLModel $model;
 
     public function __construct(array $config)
     {
@@ -22,11 +23,12 @@ class BD
                 $connection['password']
             );
         } else {
-            $this->model = new UserModel($connection['file_path']);
+            $filePathService = new FilePathClass($connection['file_path']);
+            $this->model = new jsonModel($filePathService);
         }
     }
 
-    public function getModel(): MySQLModel|UserModel
+    public function getModel(): MySQLModel|jsonModel
     {
         return $this->model;
     }
