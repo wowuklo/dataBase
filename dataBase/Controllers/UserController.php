@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
+use App\Interface\DataSourceInterface;
+
 
 class UserController
 {
-    public function __construct(private readonly UserModel $model)
+    public function __construct(private readonly DataSourceInterface $model)
     {
     }
 

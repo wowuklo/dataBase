@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\FilePath\FilePathClass;
 use App\Interface\DataSourceInterface;
 
-class UserModel implements DataSourceInterface
+class jsonModel implements DataSourceInterface
 {
-    public function __construct(private readonly string $filePath = 'dataBase/data/user.json')
+    private string $filePath;
+    public function __construct(FilePathClass $filePath)
     {
+        $this->filePath = $filePath->getFilePath();
     }
 
     public function getUsers(): array
