@@ -2,9 +2,9 @@
 
 namespace App\FilePath;
 
-class FilePathClass
+class FilePathProvider
 {
-    public  function __construct(private readonly string $filepath = '/../storage/user.json')
+    public  function __construct(private readonly string $filepath = __DIR__ . '/../storage/user.json')
     {
 
     }

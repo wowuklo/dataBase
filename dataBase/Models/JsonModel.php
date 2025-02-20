@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\FilePath\FilePathClass;
+use App\FilePath\FilePathProvider;
 use App\Interface\DataSourceInterface;
 
-class jsonModel implements DataSourceInterface
+class JsonModel implements DataSourceInterface
 {
     private string $filePath;
-    public function __construct(FilePathClass $filePath)
+    public function __construct(FilePathProvider $filePath)
     {
         $this->filePath = $filePath->getFilePath();
     }

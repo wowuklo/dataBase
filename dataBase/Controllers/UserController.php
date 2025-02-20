@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Interface\DataSourceInterface;
+use App\SapiNameProvider\AppContext;
 
 
 class UserController
@@ -15,11 +16,22 @@ class UserController
     {
         $users = $this->model->getUsers();
         if (empty($users)) {
-            echo json_encode(['status' => 'success', 'message' => 'No users found.', 'data' => []]);
+            if (AppContext::$isCLi){
+                echo "No users found.\n";
+            } else {
+                echo json_encode(['status' => 'success', 'message' => 'No users found.', 'data' => []]);
+            }
             return;
         }
-        echo json_encode(['status' => 'success', 'data' => $users]);
+             if (AppContext::$isCLi){
+                 foreach ($users as $user) {
+                     echo "ID: {$user['id']}, Name: {$user['name']}, Email: {$user['email']}\n";
+                 }
+             } else {
+                 echo json_encode(['status' => 'success', 'data' => $users]);
+             }
     }
+
 
     public function addUser(): void
     {
