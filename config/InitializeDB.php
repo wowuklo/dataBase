@@ -11,7 +11,7 @@ return [
             'password' => $_ENV['DB_PASSWORD'] ?? '123',
         ],
         'json' => [
-            'file_path' => __DIR__ . '/../storage/users.json',
+            'file_path' => __DIR__ . '/../storage/user.json',
         ],
     ],
 ];

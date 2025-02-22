@@ -2,11 +2,11 @@
 
 namespace App\Core;
 
-use App\FilePath\FilePathClass;
-use App\Models\jsonModel;
+use App\FilePath\FilePathProvider;
+use App\Models\JsonModel;
 use App\Models\MySQLModel;
 
-class BD
+class DataBase
 {
     private jsonModel|MySQLModel $model;
 
@@ -23,12 +23,12 @@ class BD
                 $connection['password']
             );
         } else {
-            $filePathService = new FilePathClass($connection['file_path']);
-            $this->model = new jsonModel($filePathService);
+            $filePathService = new FilePathProvider($connection['file_path']);
+            $this->model = new JsonModel($filePathService);
         }
     }
 
-    public function getModel(): MySQLModel|jsonModel
+    public function getModel(): MySQLModel|JsonModel
     {
         return $this->model;
     }

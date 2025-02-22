@@ -4,7 +4,7 @@ namespace App\Routes;
 
 use App\Core\Router;
 use App\controllers\UserController;
-use App\Core\BD;
+
 
 class Web
 {

@@ -4,21 +4,24 @@ namespace App;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Controllers\UserController;
-use App\Core\Router;
-use App\Core\BD;
-use App\Routes\Web;
+use App\FilePath\FilePathProvider;
+use App\SapiNameProvider\HandleConsoleCommands;
+use App\SapiNameProvider\HandleHttpRequest;
+use App\SapiNameProvider\AppContext;
+use App\Models\JsonModel;
+
+$config = new FilePathProvider();
+$model = new JsonModel($config);
 
 
-$config = require __DIR__ . "/../config/InitializeDB.php";
+if (php_sapi_name() == 'cli') {
+    AppContext::$isCLi = true;
+    $console = new HandleConsoleCommands($model);
+    $console->handleConsoleCommands($argv);
+} else {
+    $request = new HandleHttpRequest();
+    $request->handleHttpRequest();
+}
 
-$db = new BD($config);
-
-$userController = new UserController($db->getModel());
-
-$router = new Router();
-Web::registerRoutes($router, $userController);
-
-$router->dispatch();
 
 
